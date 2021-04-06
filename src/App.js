@@ -1,26 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './App.css';
 
-import { useDispatch } from "react-redux"
-
-import { getCurrentWeather } from './redux/CurrentWeather/actions'
+import Header from './components/Header'
 
 function App() {
 
-  const [location, setLocation] = useState('');
-  const dispatch = useDispatch();
-
-  const handleSearch = (e) => {
-    e.preventDefault();
-    dispatch(getCurrentWeather(location));
-  }
-
-
   return (
     <div className="App">
-      <form onSubmit={handleSearch}>
-        <input type="text" value={location} onChange={event => setLocation(event.target.value)} />
-      </form>
+      <Header />
     </div>
   );
 }
