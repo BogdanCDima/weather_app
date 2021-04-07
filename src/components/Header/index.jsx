@@ -4,7 +4,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 
 import { useDispatch } from "react-redux";
 
-import { getCurrentWeather } from '../../redux/CurrentWeather/actions';
+import { getCurrentWeather, getCurrentWeatherOnCurrentLocation } from '../../redux/CurrentWeather/actions';
 
 import Container from '@material-ui/core/Container';
 import InputBase from '@material-ui/core/InputBase';
@@ -17,7 +17,8 @@ import StyledContainer from './style';
 
 export default function Header() {
 
-    const [location, setLocation] = useState('');
+    const [location, setLocation] = useState(null);
+    const [curentLocation, setCurentLocation] = useState(null);
     const [unit, setUnit] = useState('metric');
 
     const dispatch = useDispatch();
@@ -28,9 +29,28 @@ export default function Header() {
     }
 
     useEffect(() => {
-        dispatch(getCurrentWeather(location, unit));
+        !curentLocation && navigator.geolocation.getCurrentPosition((pos) => {
+            setCurentLocation({ lat: pos.coords.latitude, lon: pos.coords.longitude })
+        },
+            (err) => {
+                console.warn(`ERROR(${err.code}): ${err.message}`);
+            }, {
+            enableHighAccuracy: false,
+            timeout: 5000,
+            maximumAge: 0
+        })
+    });
+
+    useEffect(() => {
+        location && dispatch(getCurrentWeather(location, unit));
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [unit, dispatch])
+
+
+    useEffect(() => {
+        curentLocation && dispatch(getCurrentWeatherOnCurrentLocation(curentLocation, unit));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [curentLocation, dispatch])
 
     return (
         <StyledContainer>
