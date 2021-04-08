@@ -49,7 +49,6 @@ export default function Header() {
 
     useEffect(() => {
         curentLocation && dispatch(getCurrentWeatherOnCurrentLocation(curentLocation, unit));
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [curentLocation, dispatch, unit])
 
     return (
