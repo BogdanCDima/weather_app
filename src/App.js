@@ -10,7 +10,7 @@ import Container from '@material-ui/core/Container';
 
 function App() {
 
-  const [view, setView] = useState('today')
+  const [view, setView] = useState(0);
 
   return (
     <div className="App">
@@ -18,8 +18,7 @@ function App() {
       <Navigation toggle={setView} view={view} />
       <main className="main-section">
         <Container maxWidth="lg">
-          {view === "today" && <Today />}
-          {view === "extended" && <Extended />}
+          {view ? <Extended /> : <Today />}
         </Container>
       </main>
     </div>
