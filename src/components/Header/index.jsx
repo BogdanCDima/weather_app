@@ -17,7 +17,7 @@ import StyledContainer from './style';
 
 export default function Header() {
 
-    const [location, setLocation] = useState(null);
+    const [location, setLocation] = useState('');
     const [curentLocation, setCurentLocation] = useState(null);
     const [unit, setUnit] = useState('metric');
 
@@ -50,7 +50,7 @@ export default function Header() {
     useEffect(() => {
         curentLocation && dispatch(getCurrentWeatherOnCurrentLocation(curentLocation, unit));
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [curentLocation, dispatch])
+    }, [curentLocation, dispatch, unit])
 
     return (
         <StyledContainer>
