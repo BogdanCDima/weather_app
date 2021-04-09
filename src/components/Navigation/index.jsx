@@ -17,7 +17,7 @@ export default function Navigation({ toggle, view }) {
             <Container maxWidth="lg">
                 <Tabs value={view} onChange={handleChange} indicatorColor="primary" textColor="primary">
                     <Tab label="Today" />
-                    <Tab label="7 Days" />
+                    <Tab label="7 Day" />
                 </Tabs>
             </Container>
         </StyledContainer>

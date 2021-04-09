@@ -1,7 +1,11 @@
 import React from 'react';
 
+import CurrentWeather from '../../components/CurrentWeather'
+
+import StyledContainer from './style';
+
 export default function Today() {
     return (
-        <div>today</div>
+        <StyledContainer><CurrentWeather /></StyledContainer>
     )
 }
