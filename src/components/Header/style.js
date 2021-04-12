@@ -8,6 +8,7 @@ export default styled.div`
             display: flex;
             justify-content: space-between;
             height: 100px;
+            padding: 0;
         }
 
         .search-location-form {
