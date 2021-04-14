@@ -31,47 +31,57 @@ export default function TodaysForecast({ locationData, data, historicalData }) {
             return arr.findIndex(e => e.dt === hour / 1000);
         }
 
+        function sectionIsActive(start, end) {
+            return (currentTime > start && currentTime < end);
+        }
+
         const todaysForecastData = [
             {
                 title: 'Morning',
-                active: (currentTime > daySections.start && currentTime < daySections.afternoon) ? true : false,
+                active: sectionIsActive(daySections.start, daySections.afternoon),
                 temp: data.daily[0].temp.morn,
                 icon: (getHourlyIndex(daySections.morning, data.hourly) !== -1)
                     ? data.hourly[getHourlyIndex(daySections.morning, data.hourly)].weather[0].icon
                     : historicalData.hourly[getHourlyIndex(daySections.morning, historicalData.hourly)].weather[0].icon,
-                pop: (getHourlyIndex(daySections.morning, data.hourly) !== -1) || (currentTime > daySections.start && currentTime < daySections.afternoon)
-                    ? `${Number(data.hourly[getHourlyIndex(daySections.morning, data.hourly)].pop) * 100}%`
+                pop: (getHourlyIndex(daySections.morning, data.hourly) !== -1) || sectionIsActive(daySections.start, daySections.afternoon)
+                    ? sectionIsActive(daySections.start, daySections.afternoon) ? data.hourly[0].pop * 100 : `${Number(data.hourly[getHourlyIndex(daySections.morning, data.hourly)].pop) * 100}%`
                     : "--",
                 hist: (getHourlyIndex(daySections.morning, data.hourly) !== -1),
             },
             {
                 title: 'Afternoon',
-                active: (currentTime > daySections.afternoon && currentTime < daySections.evening) ? true : false,
+                active: sectionIsActive(daySections.afternoon, daySections.evening),
                 temp: data.daily[0].temp.day,
                 icon: (getHourlyIndex(daySections.afternoon, data.hourly) !== -1)
                     ? data.hourly[getHourlyIndex(daySections.afternoon, data.hourly)].weather[0].icon
                     : historicalData.hourly[getHourlyIndex(daySections.afternoon, historicalData.hourly)].weather[0].icon,
-                pop: (currentTime < daySections.afternoon) || (currentTime > daySections.afternoon && currentTime < daySections.evening) ? `${Number(data.hourly[getHourlyIndex(daySections.afternoon, data.hourly)].pop) * 100}%` : "--",
-                hist: (getHourlyIndex(daySections.afternoon, data.hourly) !== -1),
+                pop: (getHourlyIndex(daySections.afternoon, data.hourly) !== -1) || sectionIsActive(daySections.afternoon, daySections.evening)
+                    ? sectionIsActive(daySections.afternoon, daySections.evening) ? data.hourly[0].pop * 100 : `${Number(data.hourly[getHourlyIndex(daySections.afternoon, data.hourly)].pop) * 100}%`
+                    : "--",
+                hist: (getHourlyIndex(daySections.afternoon, data.hourly) !== -1) || !(currentTime > daySections.start && currentTime < daySections.afternoon),
             },
             {
                 title: 'Evening',
-                active: (currentTime > daySections.evening && currentTime < daySections.night) ? true : false,
+                active: sectionIsActive(daySections.evening, daySections.night),
                 temp: data.daily[0].temp.eve,
                 icon: (getHourlyIndex(daySections.evening, data.hourly) !== -1)
                     ? data.hourly[getHourlyIndex(daySections.evening, data.hourly)].weather[0].icon
                     : historicalData.hourly[getHourlyIndex(daySections.evening, historicalData.hourly)].weather[0].icon,
-                pop: (getHourlyIndex(daySections.evening, data.hourly) !== -1) || (currentTime > daySections.evening && currentTime < daySections.night) ? `${Number(data.hourly[getHourlyIndex(daySections.evening, data.hourly)].pop) * 100}%` : "--",
+                pop: (getHourlyIndex(daySections.evening, data.hourly) !== -1) || sectionIsActive(daySections.evening, daySections.night)
+                    ? sectionIsActive(daySections.evening, daySections.night) ? data.hourly[0].pop * 100 : `${Number(data.hourly[getHourlyIndex(daySections.evening, data.hourly)].pop) * 100}%`
+                    : "--",
                 hist: (getHourlyIndex(daySections.evening, data.hourly) !== -1),
             },
             {
                 title: 'Overnight',
-                active: (currentTime > daySections.night) ? true : false,
+                active: (currentTime > daySections.night),
                 temp: data.daily[0].temp.night,
                 icon: (getHourlyIndex(daySections.night, data.hourly) !== -1)
                     ? data.hourly[getHourlyIndex(daySections.night, data.hourly)].weather[0].icon
                     : historicalData.hourly[getHourlyIndex(daySections.night, historicalData.hourly)].weather[0].icon,
-                pop: (getHourlyIndex(daySections.night, data.hourly) !== -1) || (currentTime > daySections.night) ? `${Number(data.hourly[getHourlyIndex(daySections.night, data.hourly)].pop) * 100}%` : "--",
+                pop: (getHourlyIndex(daySections.night, data.hourly) !== -1) || (currentTime > daySections.night)
+                    ? (currentTime > daySections.night) ? data.hourly[0].pop * 100 : `${Number(data.hourly[getHourlyIndex(daySections.night, data.hourly)].pop) * 100}%`
+                    : "--",
                 hist: (getHourlyIndex(daySections.night, data.hourly) !== -1),
             },
         ]
