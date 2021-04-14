@@ -31,8 +31,6 @@
 .main-section {
   background: rgb(123,180,199);
   background: linear-gradient(180deg, rgba(123,180,199,1) 0%, rgba(208,228,229,1) 50%);
-  /* temporary */
-  height: 800px;
 }
 
 @keyframes App-logo-spin {

@@ -12,7 +12,6 @@ const getData = (url, dispatch) => {
         "url": url,
     })
         .then((response) => {
-            console.log(response);
             dispatch(getCurrentWeatherSuccess(response));
         })
         .catch(() => {
