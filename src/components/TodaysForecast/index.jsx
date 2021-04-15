@@ -12,7 +12,7 @@ import StyledContainer from './style';
 
 export default function TodaysForecast({ locationData, data, historicalData }) {
 
-    const current = useSelector(state => state.currentWeather.currentWeather.data);
+    const weather = useSelector(state => state.weatherData.data.data);
 
     const renderTodaysForecast = () => {
 
@@ -44,7 +44,7 @@ export default function TodaysForecast({ locationData, data, historicalData }) {
                     ? data.hourly[getHourlyIndex(daySections.morning, data.hourly)].weather[0].icon
                     : historicalData.hourly[getHourlyIndex(daySections.morning, historicalData.hourly)].weather[0].icon,
                 pop: (getHourlyIndex(daySections.morning, data.hourly) !== -1) || sectionIsActive(daySections.start, daySections.afternoon)
-                    ? sectionIsActive(daySections.start, daySections.afternoon) ? data.hourly[0].pop * 100 : `${Number(data.hourly[getHourlyIndex(daySections.morning, data.hourly)].pop) * 100}%`
+                    ? sectionIsActive(daySections.start, daySections.afternoon) ? `${data.hourly[0].pop * 100}%` : `${Number(data.hourly[getHourlyIndex(daySections.morning, data.hourly)].pop) * 100}%`
                     : "--",
                 hist: (getHourlyIndex(daySections.morning, data.hourly) !== -1),
             },
@@ -56,7 +56,7 @@ export default function TodaysForecast({ locationData, data, historicalData }) {
                     ? data.hourly[getHourlyIndex(daySections.afternoon, data.hourly)].weather[0].icon
                     : historicalData.hourly[getHourlyIndex(daySections.afternoon, historicalData.hourly)].weather[0].icon,
                 pop: (getHourlyIndex(daySections.afternoon, data.hourly) !== -1) || sectionIsActive(daySections.afternoon, daySections.evening)
-                    ? sectionIsActive(daySections.afternoon, daySections.evening) ? data.hourly[0].pop * 100 : `${Number(data.hourly[getHourlyIndex(daySections.afternoon, data.hourly)].pop) * 100}%`
+                    ? sectionIsActive(daySections.afternoon, daySections.evening) ? `${data.hourly[0].pop * 100}%` : `${Number(data.hourly[getHourlyIndex(daySections.afternoon, data.hourly)].pop) * 100}%`
                     : "--",
                 hist: (getHourlyIndex(daySections.afternoon, data.hourly) !== -1) || !(currentTime > daySections.start && currentTime < daySections.afternoon),
             },
@@ -68,7 +68,7 @@ export default function TodaysForecast({ locationData, data, historicalData }) {
                     ? data.hourly[getHourlyIndex(daySections.evening, data.hourly)].weather[0].icon
                     : historicalData.hourly[getHourlyIndex(daySections.evening, historicalData.hourly)].weather[0].icon,
                 pop: (getHourlyIndex(daySections.evening, data.hourly) !== -1) || sectionIsActive(daySections.evening, daySections.night)
-                    ? sectionIsActive(daySections.evening, daySections.night) ? data.hourly[0].pop * 100 : `${Number(data.hourly[getHourlyIndex(daySections.evening, data.hourly)].pop) * 100}%`
+                    ? sectionIsActive(daySections.evening, daySections.night) ? `${data.hourly[0].pop * 100}%` : `${Number(data.hourly[getHourlyIndex(daySections.evening, data.hourly)].pop) * 100}%`
                     : "--",
                 hist: (getHourlyIndex(daySections.evening, data.hourly) !== -1),
             },
@@ -80,7 +80,7 @@ export default function TodaysForecast({ locationData, data, historicalData }) {
                     ? data.hourly[getHourlyIndex(daySections.night, data.hourly)].weather[0].icon
                     : historicalData.hourly[getHourlyIndex(daySections.night, historicalData.hourly)].weather[0].icon,
                 pop: (getHourlyIndex(daySections.night, data.hourly) !== -1) || (currentTime > daySections.night)
-                    ? (currentTime > daySections.night) ? data.hourly[0].pop * 100 : `${Number(data.hourly[getHourlyIndex(daySections.night, data.hourly)].pop) * 100}%`
+                    ? (currentTime > daySections.night) ? `${data.hourly[0].pop * 100}%` : `${Number(data.hourly[getHourlyIndex(daySections.night, data.hourly)].pop) * 100}%`
                     : "--",
                 hist: (getHourlyIndex(daySections.night, data.hourly) !== -1),
             },
@@ -107,6 +107,6 @@ export default function TodaysForecast({ locationData, data, historicalData }) {
     }
 
     return (
-        <div>{current && renderTodaysForecast()}</div>
+        <div>{weather && renderTodaysForecast()}</div>
     );
 }

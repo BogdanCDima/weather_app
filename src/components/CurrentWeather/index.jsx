@@ -3,14 +3,12 @@ import React from 'react';
 import { useSelector } from 'react-redux'
 import moment from 'moment';
 
-import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from '@material-ui/core/Typography';
 
 import StyledContainer from './style';
 
 export default function CurrentWeather() {
 
-    const loading = useSelector(state => state.currentWeather.loading);
     const forecastData = useSelector(state => state.weatherData.data.data);
     const locationData = useSelector(state => state.location.data.data);
 
@@ -41,7 +39,6 @@ export default function CurrentWeather() {
 
     return (
         <StyledContainer>
-            {loading && <CircularProgress />}
             {forecastData && renderCurrentWeather()}
         </StyledContainer>
     );

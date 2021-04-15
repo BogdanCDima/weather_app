@@ -4,7 +4,6 @@ import Toolbar from '@material-ui/core/Toolbar';
 
 import { useDispatch, useSelector } from "react-redux";
 
-import { getCurrentWeather, getCurrentWeatherOnCurrentLocation } from '../../redux/CurrentWeather/actions';
 import { getLocation } from '../../redux/Location/actions';
 import { getCurrentLocation } from '../../redux/Location/actions';
 import { getWeatherData } from '../../redux/WeatherData/actions';
@@ -25,12 +24,12 @@ export default function Header() {
     const [curentLocation, setCurentLocation] = useState(null);
     const [unit, setUnit] = useState('metric');
 
-    const dispatch = useDispatch();
     const locationData = useSelector(state => state.location);
+
+    const dispatch = useDispatch();
 
     const handleSearch = (e) => {
         e.preventDefault();
-        dispatch(getCurrentWeather(location, unit));
         dispatch(getLocation(location, unit));
     }
 
@@ -53,26 +52,19 @@ export default function Header() {
     });
 
     useEffect(() => {
-        location && dispatch(getCurrentWeather(location, unit));
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [unit, dispatch])
-
-
-    useEffect(() => {
-        curentLocation && dispatch(getCurrentWeatherOnCurrentLocation(curentLocation, unit));
-    }, [curentLocation, dispatch, unit])
-
-    useEffect(() => {
         curentLocation && dispatch(getWeatherData(curentLocation.lat, curentLocation.lon, unit));
         curentLocation && dispatch(getHistoricalData(curentLocation.lat, curentLocation.lon, unit));
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [curentLocation, dispatch]);
-
     useEffect(() => {
         locationData.data.data && dispatch(getWeatherData(locationData.data.data[0].lat, locationData.data.data[0].lon, unit));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [locationData, dispatch, unit]);
+
+    useEffect(() => {
         locationData.data.data && dispatch(getHistoricalData(locationData.data.data[0].lat, locationData.data.data[0].lon, unit));
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [locationData.data]);
+    }, [locationData.data, dispatch, unit]);
 
     return (
         <StyledContainer>
