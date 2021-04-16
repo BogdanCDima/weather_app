@@ -4,5 +4,6 @@ export default styled.div`
     ${() => css`
         display: flex;
         flex-direction: column;
+        height: 100vh;
     `}
 `;
