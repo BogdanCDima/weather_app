@@ -14,7 +14,7 @@ export default function Navigation({ toggle, view }) {
 
     return (
         <StyledContainer>
-            <Container maxWidth="lg">
+            <Container maxWidth="md">
                 <Tabs value={view} onChange={handleChange} indicatorColor="primary" textColor="primary">
                     <Tab label="Today" />
                     <Tab label="7 Day" />

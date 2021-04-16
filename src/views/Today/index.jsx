@@ -17,7 +17,7 @@ export default function Today() {
     return (
         <StyledContainer>
             {(data.loading && historicalData.loading)
-                ? <CircularProgress />
+                ? <CircularProgress className="circular-progress" />
                 : (
                     <React.Fragment>
                         <CurrentWeather />
