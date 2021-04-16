@@ -9,6 +9,9 @@ export default styled.div`
         .title {
             font-size: 25px;
             font-weight: 800;
+            margin-bottom: 20px;
+            padding: 0 16px;
+            
             span {
                 font-size: 16px;
                 font-weight: 400;
@@ -77,6 +80,8 @@ export default styled.div`
         .list-row {
             display: flex;
             width: 100%;
+            
+            background-color: #fafafa;
         }
 
         .MuiAccordionDetails-root {
@@ -143,6 +148,11 @@ export default styled.div`
             font-weight: 600;
             color: #000;
             font-size: 19px;
+        }
+
+        .Mui-expanded {
+            background-color: #fafafa;
+            border-radius: 10px;
         }
 
     `}

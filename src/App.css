@@ -33,6 +33,11 @@
   background: linear-gradient(180deg, rgba(123,180,199,1) 0%, rgba(208,228,229,1) 50%);
 }
 
+@media (min-width: 600px){
+  .MuiContainer-root {
+    padding: 10px 24px;
+}}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
