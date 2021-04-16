@@ -31,6 +31,20 @@ export default function TodaysForecast({ locationData, data, historicalData }) {
             return arr.findIndex(e => e.dt === hour / 1000);
         }
 
+        function getIcon(daySections) {
+            return (getHourlyIndex(daySections, data.hourly) !== -1)
+                ? data.hourly[getHourlyIndex(daySections, data.hourly)].weather[0].icon
+                : historicalData.hourly[getHourlyIndex(daySections, historicalData.hourly)].weather[0].icon
+        }
+
+        function getPop(daySections, active) {
+            return ((getHourlyIndex(daySections, data.hourly) !== -1) || active)
+                ? active
+                    ? `${data.hourly[0].pop * 100}%`
+                    : `${Number(data.hourly[getHourlyIndex(daySections, data.hourly)].pop) * 100}%`
+                : "--"
+        }
+
         function sectionIsActive(start, end) {
             return (currentTime > start && currentTime < end);
         }
@@ -40,48 +54,32 @@ export default function TodaysForecast({ locationData, data, historicalData }) {
                 title: 'Morning',
                 active: sectionIsActive(daySections.start, daySections.afternoon),
                 temp: data.daily[0].temp.morn,
-                icon: (getHourlyIndex(daySections.morning, data.hourly) !== -1)
-                    ? data.hourly[getHourlyIndex(daySections.morning, data.hourly)].weather[0].icon
-                    : historicalData.hourly[getHourlyIndex(daySections.morning, historicalData.hourly)].weather[0].icon,
-                pop: (getHourlyIndex(daySections.morning, data.hourly) !== -1) || sectionIsActive(daySections.start, daySections.afternoon)
-                    ? sectionIsActive(daySections.start, daySections.afternoon) ? `${data.hourly[0].pop * 100}%` : `${Number(data.hourly[getHourlyIndex(daySections.morning, data.hourly)].pop) * 100}%`
-                    : "--",
+                icon: getIcon(daySections.morning),
+                pop: getPop(daySections.morning, sectionIsActive(daySections.start, daySections.afternoon)),
                 hist: (getHourlyIndex(daySections.morning, data.hourly) !== -1),
             },
             {
                 title: 'Afternoon',
                 active: sectionIsActive(daySections.afternoon, daySections.evening),
                 temp: data.daily[0].temp.day,
-                icon: (getHourlyIndex(daySections.afternoon, data.hourly) !== -1)
-                    ? data.hourly[getHourlyIndex(daySections.afternoon, data.hourly)].weather[0].icon
-                    : historicalData.hourly[getHourlyIndex(daySections.afternoon, historicalData.hourly)].weather[0].icon,
-                pop: (getHourlyIndex(daySections.afternoon, data.hourly) !== -1) || sectionIsActive(daySections.afternoon, daySections.evening)
-                    ? sectionIsActive(daySections.afternoon, daySections.evening) ? `${data.hourly[0].pop * 100}%` : `${Number(data.hourly[getHourlyIndex(daySections.afternoon, data.hourly)].pop) * 100}%`
-                    : "--",
+                icon: getIcon(daySections.afternoon),
+                pop: getPop(daySections.evening, sectionIsActive(daySections.afternoon, daySections.evening)),
                 hist: (getHourlyIndex(daySections.afternoon, data.hourly) !== -1) || !(currentTime > daySections.start && currentTime < daySections.afternoon),
             },
             {
                 title: 'Evening',
                 active: sectionIsActive(daySections.evening, daySections.night),
                 temp: data.daily[0].temp.eve,
-                icon: (getHourlyIndex(daySections.evening, data.hourly) !== -1)
-                    ? data.hourly[getHourlyIndex(daySections.evening, data.hourly)].weather[0].icon
-                    : historicalData.hourly[getHourlyIndex(daySections.evening, historicalData.hourly)].weather[0].icon,
-                pop: (getHourlyIndex(daySections.evening, data.hourly) !== -1) || sectionIsActive(daySections.evening, daySections.night)
-                    ? sectionIsActive(daySections.evening, daySections.night) ? `${data.hourly[0].pop * 100}%` : `${Number(data.hourly[getHourlyIndex(daySections.evening, data.hourly)].pop) * 100}%`
-                    : "--",
-                hist: (getHourlyIndex(daySections.evening, data.hourly) !== -1),
+                icon: getIcon(daySections.evening),
+                pop: getPop(daySections.evening, sectionIsActive(daySections.evening, daySections.night)),
+                hist: (getHourlyIndex(daySections.evening, data.hourly) !== -1) || !(currentTime > daySections.start && currentTime < daySections.afternoon),
             },
             {
                 title: 'Overnight',
                 active: (currentTime > daySections.night),
                 temp: data.daily[0].temp.night,
-                icon: (getHourlyIndex(daySections.night, data.hourly) !== -1)
-                    ? data.hourly[getHourlyIndex(daySections.night, data.hourly)].weather[0].icon
-                    : historicalData.hourly[getHourlyIndex(daySections.night, historicalData.hourly)].weather[0].icon,
-                pop: (getHourlyIndex(daySections.night, data.hourly) !== -1) || (currentTime > daySections.night)
-                    ? (currentTime > daySections.night) ? `${data.hourly[0].pop * 100}%` : `${Number(data.hourly[getHourlyIndex(daySections.night, data.hourly)].pop) * 100}%`
-                    : "--",
+                icon: getIcon(daySections.night),
+                pop: getPop(daySections.night, (currentTime > daySections.night)),
                 hist: (getHourlyIndex(daySections.night, data.hourly) !== -1),
             },
         ]
@@ -89,9 +87,9 @@ export default function TodaysForecast({ locationData, data, historicalData }) {
         return (
 
             <StyledContainer>
-                <Typography className="location" variant="h5" >{`Today's Forecast for ${locationData[0].name}, ${locationData[0].country}`}</Typography>
+                {locationData[0] && <Typography className="location" variant="h5" >{`Today's Forecast for ${locationData[0].name}, ${locationData[0].country}`}</Typography>}
                 <Grid container spacing={3}>
-                    {todaysForecastData.map((data, index) => {
+                    {data.hourly && todaysForecastData.map((data, index) => {
                         return (
                             <React.Fragment key={index}>
                                 <Grid item xs={3}>

@@ -9,7 +9,7 @@ import {
 export const INITIAL_STATE = {
     loading: false,
     serverError: false,
-    data: [],
+    data: {},
 };
 
 const weatherDataReducer = handleActions(
