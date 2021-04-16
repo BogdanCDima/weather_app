@@ -44,7 +44,7 @@ export function ExtendedForecast({ forecastData, locationData }) {
                                 <div className="acc-summary">
                                     <div className="date">
                                         <Typography>
-                                            {moment(day.dt * 1000).format("ddd DD")}
+                                            {index === 0 ? "Today" : moment(day.dt * 1000).format("ddd DD")}
                                         </Typography>
                                     </div>
                                     {expanded !== `panel${index + 1}` && (
@@ -77,7 +77,7 @@ export function ExtendedForecast({ forecastData, locationData }) {
                                         <div className="pop">
                                             <div className="pop-data" align="left">
                                                 <CloudRain className="rain-icon" />
-                                                <span>{day.pop * 100}%</span>
+                                                <span>{parseInt(day.pop * 100)}%</span>
                                             </div>
                                             <div className="pop-data" align="left">
                                                 <Wind className="rain-icon" />
@@ -92,13 +92,13 @@ export function ExtendedForecast({ forecastData, locationData }) {
                                             <div className="condition-icon">
                                                 <InvertColorsIcon />
                                             </div>
-                                            <ListItemText primary="Humidity" secondary={`${day.pop * 100}%`} />
+                                            <ListItemText primary="Humidity" secondary={`${parseInt(day.pop * 100)}%`} />
                                         </ListItem>
                                         <ListItem>
                                             <div className="condition-icon">
                                                 <WbSunnyIcon />
                                             </div>
-                                            <ListItemText primary="UV Index" secondary={`${day.uvi * 10} of 10`} />
+                                            <ListItemText primary="UV Index" secondary={`${parseInt(day.uvi)} of 10`} />
                                         </ListItem>
                                     </List>
                                     <Divider variant="middle" component="div" flexItem />
