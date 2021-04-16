@@ -68,7 +68,7 @@ export default function Header() {
 
     return (
         <StyledContainer>
-            <Container maxWidth="lg">
+            <Container maxWidth="md">
                 <Toolbar className="menu-bar" variant="dense">
                     <form className="search-location-form" onSubmit={handleSearch}>
                         <InputBase

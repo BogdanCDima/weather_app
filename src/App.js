@@ -17,7 +17,7 @@ function App() {
       <Header />
       <Navigation toggle={setView} view={view} />
       <main className="main-section">
-        <Container maxWidth="lg">
+        <Container maxWidth="md">
           {view ? <Extended /> : <Today />}
         </Container>
       </main>
